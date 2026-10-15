@@ -32,15 +32,63 @@ A web application designed for social-commerce sellers (Instagram, Facebook, Tik
 - **Database:** SQLite (Development) | PostgreSQL (Production)
 - **Package Manager:** [uv](https://docs.astral.sh/uv/)
 
----
-
 ### ⚙️ Environment Variables
 
 Create `.env` files in both backend and frontend directories:
 
 #### Backend (`server/.env`)
+
 ```env
 SECRET_KEY=your_django_secret_key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 DATABASE_URL=sqlite:///db.sqlite3
+```
+
+#### Frontend (`frontend/.env.local`)
+
+```env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
+```
+
+---
+
+## العربية
+
+تطبيق ويب مصمم لبائعي التجارة الإلكترونية عبر منصات التواصل الاجتماعي (إنستغرام، فيسبوك، تيك توك، واتساب)، يُمكّنهم من تتبع طلباتهم بسهولة، تأكيدها عبر واتساب بضغطة زر، وحساب صافي الأرباح الحقيقية بعد خصم المرتجعات.
+
+> **الحالة:** 🚧 قيد التطوير النشط
+
+### 🎯 الميزات الرئيسية
+
+- **حسابات التُّجار:** تسجيل دخول وتوثيق مستقل لكل بائع.
+- **إدارة الطلبات:** إنشاء الطلبات، تعديلها، وتنظيمها بسهولة.
+- **دورة حياة الطلب:** تتبع الحالة (`جديد`، `مؤكَّد`، `مشحون`، `مُسلَّم`، `مرتجع`).
+- **تكامل مع WhatsApp:** زر مباشر يفتح واتساب مع رسالة تأكيد جاهزة ومخصصة.
+- **تحليلات مالية:** لوحة تحكم تعرض إجمالي الطلبات، نسبة المرتجعات، وصافي الربح المتبقي.
+
+### 🛠️ التقنيات المستخدمة
+
+- **الخلفية (Backend):** Django REST Framework
+- **الواجهة (Frontend):** Next.js, TypeScript, Tailwind CSS
+- **قواعد البيانات:** SQLite (للتطوير) | PostgreSQL (للإنتاج)
+- **إدارة حزم Python:** [uv](https://docs.astral.sh/uv/)
+
+### ⚙️ المتغيرات البيئية (Environment Variables)
+
+قم بإنشاء ملفات `.env` في كل من مجلد الخلفية والواجهة:
+
+#### الخلفية (`server/.env`)
+
+```env
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+DATABASE_URL=sqlite:///db.sqlite3
+```
+
+#### الواجهة (`frontend/.env.local`)
+
+```env
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
+```
