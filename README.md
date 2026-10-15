@@ -1,87 +1,46 @@
 # Orders Tracker | متتبع الطلبات
 
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Django REST](https://img.shields.io/badge/Django_REST-092E20?style=for-the-badge&logo=django&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Status](https://img.shields.io/badge/Status-In_Development-yellow?style=for-the-badge)
+
 🇬🇧 [English](#english) | 🇲🇦 [العربية](#العربية)
 
 ---
 
 ## English
 
-A web app for social-commerce sellers (Instagram, Facebook, TikTok, WhatsApp) to track their orders, confirm them on WhatsApp, and see their real profit after returns.
+A web application designed for social-commerce sellers (Instagram, Facebook, TikTok, WhatsApp) to seamlessly track their orders, send quick confirmation messages via WhatsApp, and analyze real net profit after returns.
 
-> **Status:** 🚧 In development
+> **Status:** 🚧 In active development
 
-### Features
+### 🎯 Key Features
 
-- Personal account for each seller
-- Add and manage orders
-- Order status: New, Confirmed, Shipped, Delivered, Returned
-- WhatsApp button with a ready confirmation message
-- Dashboard: total orders, return rate, net profit
+- **Merchant Accounts:** Isolated authentication and personal dashboard per seller.
+- **Order Management:** Create, update, and categorize orders effortlessly.
+- **Order Lifecycle:** Track statuses across `New`, `Confirmed`, `Shipped`, `Delivered`, and `Returned`.
+- **WhatsApp Integration:** Instant WhatsApp button pre-filled with order confirmation templates.
+- **Financial Analytics:** Clear metrics showing total orders, return rates, and actual net profit.
 
-### Tech stack
+### 🛠️ Tech Stack
 
 - **Backend:** Django REST Framework
-- **Frontend:** Next.js
-- **Database:** SQLite (development), PostgreSQL (production)
-- **Python tooling:** [uv](https://docs.astral.sh/uv/)
-
-### Run locally
-
-```bash
-# Backend
-cd server
-uv sync
-uv run python manage.py migrate
-uv run python manage.py runserver
-
-# Frontend
-cd client
-npm install
-npm run dev
-```
-
-### Author
-
-Zakariyae - [GitHub](https://github.com/zakariyae-devcode)
+- **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
+- **Database:** SQLite (Development) | PostgreSQL (Production)
+- **Package Manager:** [uv](https://docs.astral.sh/uv/)
 
 ---
 
-## العربية
+### ⚙️ Environment Variables
 
-تطبيق ويب لبائعي التجارة الإلكترونية على السوشيال ميديا (إنستغرام، فيسبوك، تيك توك، واتساب)، يساعدهم على تتبع طلباتهم وتأكيدها عبر واتساب ومعرفة أرباحهم الحقيقية بعد المرتجعات.
+Create `.env` files in both backend and frontend directories:
 
-> **الحالة:** 🚧 قيد التطوير
-
-### الميزات
-
-- حساب خاص لكل بائع
-- إضافة الطلبات وإدارتها
-- حالات الطلب: جديد، مؤكَّد، مشحون، مُسلَّم، مرتجع
-- زر واتساب برسالة تأكيد جاهزة
-- لوحة تحكم: عدد الطلبات، نسبة المرتجعات، صافي الربح
-
-### التقنيات
-
-- **الخلفية:** Django REST Framework
-- **الواجهة:** Next.js
-- **قاعدة البيانات:** SQLite (للتطوير)، PostgreSQL (للنشر)
-- **أداة Python:** [uv](https://docs.astral.sh/uv/)
-
-### التشغيل محلياً
-
-```bash
-# الخلفية
-cd server
-uv sync
-uv run python manage.py migrate
-uv run python manage.py runserver
-
-# الواجهة
-cd client
-npm install
-npm run dev
-```
-
-### المطور
-
-Zakariyae - [GitHub](https://github.com/zakariyae-devcode)
+#### Backend (`server/.env`)
+```env
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+DATABASE_URL=sqlite:///db.sqlite3
