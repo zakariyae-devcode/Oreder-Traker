@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 #---------------------------------------------------------#
 #-------------------- System Product---------------------#
 #---------------------------------------------------------#
-class CreateCustomerView(APIView):
+class CreateProductView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -75,7 +75,7 @@ class DeleteProductView(APIView):
             return Response({"error": "فشلت العملية بسبب قيود حماية قاعدة البيانات."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class CustomerView(APIView):
+class ProductView(APIView):
    
     permission_classes=[IsAuthenticated]
     def get(self, request):

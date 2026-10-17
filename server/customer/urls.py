@@ -7,5 +7,5 @@ urlpatterns = [
     path("/update-customer/<uuid:id>",UpdateCustomerView.as_view(),name="update-customer"),
     path("/delete-customer/<uuid:id>",DeleteCustomerView.as_view(),name="delete-customer"),
     path("/customer-view/",CustomerView.as_view(),name="customer-view"),
-    path("customer-detials/<uuid:id>",CustomerDetailsView.as_view(),name="customer-view")
+    path("/customer-detials/<uuid:id>",CustomerDetailsView.as_view(),name="customer-view")
 ]
