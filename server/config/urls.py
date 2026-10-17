@@ -13,10 +13,9 @@ urlpatterns = [
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
   
-    
-
-
     #app
 
-    path("api/v1/account/",include("accounts.urls"))
+    path("api/v1/account/",include("accounts.urls")),
+
+    path("api/v1/customer",include("customer.urls")),
 ]

@@ -41,7 +41,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
-    CIN = models.CharField(
+    cin = models.CharField(
             max_length=10, 
             validators=[cin_validator],
             unique=True,
@@ -50,7 +50,7 @@ class User(AbstractUser):
         )
     Phone=models.CharField(max_length=255 ,default="+212 00000006")
     City=models.CharField(max_length=255,default="Taourirt")
-    Adresses=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
+    Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
 
 
 

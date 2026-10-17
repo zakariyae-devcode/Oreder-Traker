@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'corsheaders',
     #*-------Apps-----------*#
     'accounts',
+    'customer',
 
 ]
 REST_FRAMEWORK = {

@@ -11,7 +11,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "cin",  "password"]
+        fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address", "password"]
         
        
         extra_kwargs = {
@@ -20,7 +20,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "last_name": {"required": True, "allow_blank": False},
             "email": {"required": True, "allow_blank": False},
             "cin": {"required": True, "allow_blank": False},
-            
+            "Phone":{"required": True, "allow_blank": False},
+            "City":{"required": True, "allow_blank": False},
+            "Address":{"required": True, "allow_blank": False},
+
             "password": {"required": True, "allow_blank": False, "min_length": 8}
         }
 
@@ -31,14 +34,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = [ "username", "email", "first_name", "last_name",  "cin"]
+       model = User
+       fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address", "password"]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email",  "cin"]
+        fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address", "password"]
 
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():
