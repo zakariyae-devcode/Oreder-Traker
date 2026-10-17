@@ -1,5 +1,4 @@
 from django.db import models
-from accounts.models import User
 from django.core.validators import RegexValidator
 import uuid
 from django.conf import settings
@@ -23,5 +22,15 @@ class Customer(models.Model):
     Phone=models.CharField(max_length=255 ,default="+212 00000006")
     City=models.CharField(max_length=255,default="Taourirt")
     Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
+
+    create_at=models.DateTimeField(auto_now=True)
+    update_at=models.DateTimeField(auto_now_add=True)
+
+   
+    
+    
+    
+    def __str__(self):
+            return self.FullName
 
 

@@ -52,9 +52,9 @@ class UpdateCustomerView(APIView):
     
     def patch(self, request, id):
         try:
-            service = get_object_or_404(Customer, id=id, user=request.user)
+            customer = get_object_or_404(Customer, id=id, user=request.user)
             
-            serializer = UpdateCustomerSerialier(Customer, data=request.data, partial=True)
+            serializer = UpdateCustomerSerialier(customer, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "customer updated successfully"}, status=status.HTTP_200_OK)

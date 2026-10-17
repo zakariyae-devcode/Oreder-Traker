@@ -52,6 +52,13 @@ class User(AbstractUser):
     City=models.CharField(max_length=255,default="Taourirt")
     Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.username
+
 
 
     
