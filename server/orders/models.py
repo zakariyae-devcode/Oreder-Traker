@@ -1,7 +1,8 @@
 from django.db import models
 import uuid
 
-
+from django.core.validators import MinValueValidator
+from decimal import Decimal
 class Status(models.TextChoices):
         NEW = "new", "New"
         CONFIRMED = "confirmed", "Confirmed"
@@ -19,7 +20,9 @@ class Order(models.Model):
         related_name="orders",
     )
     
-    shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0,
+    validators=[MinValueValidator(Decimal("0"))])
+                                        
     tracking_number = models.CharField(max_length=100, blank=True,null=True)
     status = models.CharField(
         max_length=20,
