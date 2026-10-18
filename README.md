@@ -28,7 +28,7 @@ A web application designed for social-commerce sellers (Instagram, Facebook, Tik
 ### 🛠️ Tech Stack
 
 - **Backend:** Django REST Framework
-- **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
+- **Frontend:** Next.js (App Router), TypeScript, Bootstrap
 - **Database:** SQLite (Development) | PostgreSQL (Production)
 - **Package Manager:** [uv](https://docs.astral.sh/uv/)
 
@@ -70,7 +70,7 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 ### 🛠️ التقنيات المستخدمة
 
 - **الخلفية (Backend):** Django REST Framework
-- **الواجهة (Frontend):** Next.js, TypeScript, Tailwind CSS
+- **الواجهة (Frontend):** Next.js, TypeScript, Bootstrap
 - **قواعد البيانات:** SQLite (للتطوير) | PostgreSQL (للإنتاج)
 - **إدارة حزم Python:** [uv](https://docs.astral.sh/uv/)
 
