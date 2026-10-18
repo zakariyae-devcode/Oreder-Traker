@@ -20,5 +20,5 @@ urlpatterns = [
     path("api/v1/order/",include("orders.urls")),
     path("api/v1/order-items/",include("orderitems.urls")),
 ]
-handler404='utils.error_views.handler_404'
-handler500='utils.error_views.handler_500'
+handler404='utils.error.handler_404'
+handler500='utils.error.handler_500'
