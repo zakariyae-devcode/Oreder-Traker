@@ -75,7 +75,7 @@ class DeleteProductView(APIView):
             return Response({"error": "فشلت العملية بسبب قيود حماية قاعدة البيانات."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ProductView(APIView):
+class  ListProductView(APIView):
    
     permission_classes=[IsAuthenticated]
     def get(self, request):
@@ -106,7 +106,7 @@ class ProductView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-class ProductDetailsView(APIView):
+class DetailProductView(APIView):
     
     permission_classes = [IsAuthenticated]
     
