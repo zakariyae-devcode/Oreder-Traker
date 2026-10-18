@@ -1,17 +1,5 @@
 
 
-from .serializers import  OrderItemSerializer
-
-
-
-
-logger = logging.getLogger(__name__)
-
-
-
-#---------------------------------------------------------#
-#-------------------- System OrderItem---------------------#
-#---------------------------------------------------------#
 import logging
 
 from django.db import DatabaseError
@@ -22,6 +10,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import OrderItem
+from .serializers import OrderItemSerializer
+
+
+
+#---------------------------------------------------------#
+#-------------------- System OrderItem---------------------#
+#---------------------------------------------------------#
+
 
 logger = logging.getLogger(__name__)
 

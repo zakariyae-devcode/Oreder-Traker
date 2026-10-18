@@ -3,8 +3,8 @@ from rest_framework import serializers
 
 from .models import Order
 
-from OrderItems.serializers import OrderItemSerializer
-from OrderItems.models import OrderItem
+from orderitems.serializers import OrderItemSerializer
+from orderitems.models import OrderItem
 
 
 
