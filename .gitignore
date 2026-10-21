@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+#json file for streamlit secrets
+.json
+Json
+# test fille
+Test

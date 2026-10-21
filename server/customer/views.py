@@ -26,15 +26,13 @@ class CreateCustomerView(APIView):
 
     def post(self, request):
         try:
-            
+            print("AUTH HEADER:", request.META.get("HTTP_AUTHORIZATION"))
             serializer = CreateCustomerSerializer(data=request.data)
             
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
                
                 return Response({"message": "customer created successfully"}, status=status.HTTP_201_CREATED)
-            
-            
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
         except DatabaseError as e:
@@ -110,28 +108,9 @@ class ListCustomerView(APIView):
             )
 
 class DetailCustomerView(APIView):
-    
     permission_classes = [IsAuthenticated]
-    
+
     def get(self, request, id):
-        try:
-            
-            customer = get_object_or_404(Customer, id=id)
-            
-           
-            queryset = Customer.objects.filter( customer=customer)
-            
-           
-            serializer = CustomerSerializer(queryset, many=True)
-            
-            return Response(
-                {"services": serializer.data}, 
-                status=status.HTTP_200_OK
-            )
-            
-        except Exception as e:
-            logger.error(f"Error retrieving customer for user {id}: {str(e)}")
-            return Response(
-                {"error": "حدث خطأ داخلي في الخادم."}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        customer = get_object_or_404(Customer, id=id, user=request.user)
+        serializer = CustomerSerializer(customer)
+        return Response(serializer.data, status=status.HTTP_200_OK)

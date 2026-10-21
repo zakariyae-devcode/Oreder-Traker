@@ -5,7 +5,7 @@ from .models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
      class Meta:
             model = Customer
-            fields = ["FullName", "email", "cin", "Phone","City","Address"]
+            fields = ["id","FullName", "email", "cin", "Phone","City","Address"]
 
 class CreateCustomerSerializer(serializers.ModelSerializer):
   
@@ -30,14 +30,16 @@ class CreateCustomerSerializer(serializers.ModelSerializer):
         return user_customer
 
 class UpdateCustomerSerialier(serializers.ModelSerializer):
-    model = Customer
-    fields = ["FullName", "email", "cin", "Phone","City","Address"]
+    class Meta:
+        model = Customer
+        fields = ["FullName", "email", "cin", "Phone","City","Address"]
 
 
     def update(self, instance, validated_data):
         for attr,value in validated_data.items():
               setattr(instance,attr,value)
         instance.save()
-        
+
+        return instance
 
         
