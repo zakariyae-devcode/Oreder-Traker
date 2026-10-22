@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import  Product
 
-from .serializers import  CreateProductSerializers,UpdateProductSerialier,ProductSerialier
+from .serializers import  CreateProductSerializers,UpdateProductSerializer,ProductSerializer
 from rest_framework.throttling import UserRateThrottle
 
 from .filter import ProductFilter
@@ -54,7 +54,7 @@ class UpdateProductView(APIView):
         try:
             product = get_object_or_404(Product, id=id, user=request.user)
             
-            serializer = UpdateProductSerialier(product, data=request.data, partial=True)
+            serializer = UpdateProductSerializer(product, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save(user=request.user)
                 return Response({"message": "product updated successfully"}, status=status.HTTP_200_OK)
@@ -85,6 +85,7 @@ class  ListProductView(APIView):
     
     def get(self, request):
         try:
+            print("hello,word")
            
             queryset = Product.objects.filter(user=request.user)
             
@@ -101,7 +102,7 @@ class  ListProductView(APIView):
             product = queryset.only('name', 'sellingPrice','purchasePrice',"is_active")
             
            
-            serializer = ProductSerialier(product, many=True)
+            serializer = ProductSerializer(product, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
             
         except Exception as e:
@@ -117,5 +118,5 @@ class DetailProductView(APIView):
 
     def get(self, request, id):
         customer = get_object_or_404(Product, id=id, user=request.user)
-        serializer = Product(customer)
+        serializer = ProductSerializer(customer)
         return Response(serializer.data, status=status.HTTP_200_OK)
