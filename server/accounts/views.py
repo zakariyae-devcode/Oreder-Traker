@@ -1,6 +1,4 @@
 from django.utils import timezone
-
-
 import logging
 from django.core.mail import send_mail
 from django.conf import settings
@@ -8,7 +6,10 @@ from django.db import DatabaseError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.throttling import ScopedRateThrottle,UserRateThrottle
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
+
 # Create your views here.
 from .models import User
 from .serializers import (
@@ -42,9 +43,27 @@ class RegisterView(APIView):
             return Response({"error": "An unexpected error occurred while processing the request"}, 
             status=status. HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
+
+class LoginView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "login"
+
+class RefreshTokenView(TokenRefreshView):
+    permission_classes = [AllowAny]
+    throttle_classes=[UserRateThrottle]
+
+
+class VerifyTokenView(TokenVerifyView):
+    permission_classes=[AllowAny]
+    throttle_classes=[UserRateThrottle]
+
 class UserDetailView(APIView):
     """جلب بيانات المستخدم الحالي الآمن"""
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
    
     def get(self, request):
         try:
@@ -58,6 +77,7 @@ class UserDetailView(APIView):
 class UserUpdateView(APIView):
     """تحديث بيانات المستخدم الحالي جزئياً بأمان"""
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
    
     def patch(self, request):
         try:
@@ -74,6 +94,7 @@ class UserUpdateView(APIView):
 class UserSelfDeleteView(APIView):
     """المستخدم يطلب حذف حسابه (يُقفل فوراً وتبدأ مهلة الـ 30 يوماً)"""
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
     
     def delete(self, request):
         user = request.user
@@ -95,6 +116,7 @@ class UserSelfDeleteView(APIView):
 class ChangePasswordView(APIView): 
     """تغيير كلمة المرور للمستخدم المسجل"""
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
    
     def put(self, request):
         try:
@@ -111,6 +133,8 @@ class ChangePasswordView(APIView):
 
 class EmailResetView(APIView):
     """إرسال رابط استعادة كلمة المرور مع حماية ضد الـ User Enumeration"""
+    permission_classes = [AllowAny]
+    throttle_classes=[UserRateThrottle]
    
     def post(self, request):
         serializer = EmailRestSerializer(data=request.data)
@@ -152,6 +176,8 @@ class EmailResetView(APIView):
 
 class ForgotPasswordView(APIView):
     """إعادة تعيين كلمة المرور باستخدام الـ CIN بشكل معقم ومحمي"""
+    permission_classes = [AllowAny]
+    throttle_classes=[UserRateThrottle]
     
     def post(self, request): 
         serializer = ForgotPasswordSerializer(data=request.data)
@@ -176,6 +202,7 @@ class ForgotPasswordView(APIView):
 class LogoutView(APIView):
     """تسجيل الخروج الآمن"""
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
    
     def post(self, request):
         try:

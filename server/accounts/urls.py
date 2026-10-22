@@ -7,20 +7,20 @@ from  .views import (
         EmailResetView,
         ForgotPasswordView,
         LogoutView,
+        LoginView,
+        RefreshTokenView,
+        VerifyTokenView
         
-)
-
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-
 )
 
 
 urlpatterns = [
     
     path("register/", RegisterView.as_view(), name="register-view"),
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/',LoginView.as_view(),name="login-view" ),
+
+    path("refresh/",RefreshTokenView.as_view(),name="refresh-token"),
+    path("verify/",VerifyTokenView.as_view(),name="verify-token"),
    
     path("user/", UserDetailView.as_view(), name="user-details-view"),
     path("user/update/", UserUpdateView.as_view(), name="user-update-view"),

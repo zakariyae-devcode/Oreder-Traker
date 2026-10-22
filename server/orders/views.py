@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from .filter import OrderFilter
 from .models import Order
 from .serializers import OrderSerializer
+from rest_framework.throttling import UserRateThrottle
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,7 @@ def user_orders(user):
 
 class ListOrderView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def get(self, request):
         orders = user_orders(request.user).order_by("-created_at")
@@ -35,6 +37,7 @@ class ListOrderView(APIView):
 
 class DetailOrderView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def get(self, request, id):
         order = get_object_or_404(user_orders(request.user), id=id)
@@ -44,6 +47,7 @@ class DetailOrderView(APIView):
 
 class CreateOrderView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def post(self, request):
         serializer = OrderSerializer(data=request.data, context={"request": request})
@@ -62,6 +66,7 @@ class CreateOrderView(APIView):
 
 class UpdateOrderView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def patch(self, request, id):
         order = get_object_or_404(user_orders(request.user), id=id)
@@ -83,6 +88,7 @@ class UpdateOrderView(APIView):
 
 class DeleteOrderView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def delete(self, request, id):
         order = get_object_or_404(user_orders(request.user), id=id)

@@ -3,7 +3,7 @@ from .models import Product
 
 class ProductSerialier(serializers.ModelSerializer):
     model = Product
-    fields = ["name", "sellingPrice", "purchasePrice", "is_active"]
+    fields = ["id","name", "sellingPrice", "purchasePrice", "is_active"]
 
 
    

@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Customer
 
 from .serializers import CreateCustomerSerializer,UpdateCustomerSerialier,CustomerSerializer
+from rest_framework.throttling import UserRateThrottle
 
 
 from .filter import CustomerFilter
@@ -23,10 +24,11 @@ logger = logging.getLogger(__name__)
 
 class CreateCustomerView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def post(self, request):
         try:
-            print("AUTH HEADER:", request.META.get("HTTP_AUTHORIZATION"))
+           
             serializer = CreateCustomerSerializer(data=request.data)
             
             if serializer.is_valid():
@@ -47,14 +49,14 @@ class CreateCustomerView(APIView):
 
 class UpdateCustomerView(APIView):
     permission_classes = [IsAuthenticated]
-    
+    throttle_classes=[UserRateThrottle]
     def patch(self, request, id):
         try:
             customer = get_object_or_404(Customer, id=id, user=request.user)
             
             serializer = UpdateCustomerSerialier(customer, data=request.data, partial=True)
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
                 return Response({"message": "customer updated successfully"}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
@@ -65,11 +67,11 @@ class UpdateCustomerView(APIView):
 
 class DeleteCustomerView(APIView):
     permission_classes = [IsAuthenticated]
-
+    throttle_classes=[UserRateThrottle]
     def delete(self, request, id):
         try:
-            service = get_object_or_404(Customer, id=id, user=request.user)
-            service.delete()
+            customer = get_object_or_404(Customer, id=id, user=request.user)
+            customer.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except DatabaseError as e:
             logger.error(f"[SECURITY] Database error during customer deletion: {str(e)}")
@@ -79,10 +81,11 @@ class DeleteCustomerView(APIView):
 class ListCustomerView(APIView):
    
     permission_classes=[IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
     def get(self, request):
         try:
            
-            queryset =Customer.objects.all()
+            queryset = Customer.objects.filter(user=request.user) #ORM 
             
             
             filter_backend = CustomerFilter(request.GET, queryset=queryset)
@@ -109,6 +112,7 @@ class ListCustomerView(APIView):
 
 class DetailCustomerView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def get(self, request, id):
         customer = get_object_or_404(Customer, id=id, user=request.user)

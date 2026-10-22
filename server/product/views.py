@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import  Product
 
 from .serializers import  CreateProductSerializers,UpdateProductSerialier,ProductSerialier
-
+from rest_framework.throttling import UserRateThrottle
 
 from .filter import ProductFilter
 
@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 #---------------------------------------------------------#
 class CreateProductView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
 
     def post(self, request):
         try:
@@ -29,7 +30,7 @@ class CreateProductView(APIView):
             serializer = CreateProductSerializers(data=request.data)
             
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
                
                 return Response({"message": "product created successfully"}, status=status.HTTP_201_CREATED)
             
@@ -47,6 +48,7 @@ class CreateProductView(APIView):
 
 class UpdateProductView(APIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
     
     def patch(self, request, id):
         try:
@@ -54,7 +56,7 @@ class UpdateProductView(APIView):
             
             serializer = UpdateProductSerialier(product, data=request.data, partial=True)
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
                 return Response({"message": "product updated successfully"}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
@@ -64,7 +66,8 @@ class UpdateProductView(APIView):
 
 class DeleteProductView(APIView):
     permission_classes = [IsAuthenticated]
-
+    throttle_classes=[UserRateThrottle]
+    
     def delete(self, request, id):
         try:
             service = get_object_or_404(Product, id=id, user=request.user)
@@ -78,6 +81,8 @@ class DeleteProductView(APIView):
 class  ListProductView(APIView):
    
     permission_classes=[IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
+    
     def get(self, request):
         try:
            
@@ -109,6 +114,8 @@ class  ListProductView(APIView):
 class DetailProductView(APIView):
     
     permission_classes = [IsAuthenticated]
+    throttle_classes=[UserRateThrottle]
+    
     
     def get(self, request, id):
         try:
