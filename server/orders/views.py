@@ -53,7 +53,7 @@ class CreateOrderView(APIView):
         serializer = OrderSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             try:
-                serializer.save()
+                serializer.save(user=request.user)
             except DatabaseError as e:
                 logger.error(f"Database error during order creation: {e}")
                 return Response(

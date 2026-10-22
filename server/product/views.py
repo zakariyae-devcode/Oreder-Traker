@@ -86,7 +86,7 @@ class  ListProductView(APIView):
     def get(self, request):
         try:
            
-            queryset =Product.objects.all()
+            queryset = Product.objects.filter(user=request.user)
             
             
             filter_backend = ProductFilter(request.GET, queryset=queryset)
@@ -112,30 +112,10 @@ class  ListProductView(APIView):
             )
 
 class DetailProductView(APIView):
-    
     permission_classes = [IsAuthenticated]
     throttle_classes=[UserRateThrottle]
-    
-    
+
     def get(self, request, id):
-        try:
-            
-            product = get_object_or_404(Product, id=id)
-            
-           
-            queryset = Product.objects.filter( product=product)
-            
-           
-            serializer = ProductSerialier(queryset, many=True)
-            
-            return Response(
-                {"services": serializer.data}, 
-                status=status.HTTP_200_OK
-            )
-            
-        except Exception as e:
-            logger.error(f"Error retrieving product for user {id}: {str(e)}")
-            return Response(
-                {"error": "حدث خطأ داخلي في الخادم."}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        customer = get_object_or_404(Product, id=id, user=request.user)
+        serializer = Product(customer)
+        return Response(serializer.data, status=status.HTTP_200_OK)

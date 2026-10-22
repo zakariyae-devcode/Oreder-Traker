@@ -8,11 +8,11 @@ from .views import (
 
 urlpatterns = [
 
-    path("product/", ListProductView.as_view(),name="product-view"),
-    path("product/<uuid:id>/",DetailProductView.as_view(),name="product-view"),
-    path("product/create/",CreateProductView.as_view(),name="create-product"),
-    path("product/<uuid:id>/update/",UpdateProductView.as_view(),name="update-product"),
-    path("product/<uuid:id>/delete/",DeleteProductView.as_view(),name="delete-product"),
+    path("list/", ListProductView.as_view(),name="product-view"),
+    path("<uuid:id>/",DetailProductView.as_view(),name="product-view"),
+    path("create/",CreateProductView.as_view(),name="create-product"),
+    path("<uuid:id>/update/",UpdateProductView.as_view(),name="update-product"),
+    path("<uuid:id>/delete/",DeleteProductView.as_view(),name="delete-product"),
    
    
 ]

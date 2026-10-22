@@ -19,7 +19,7 @@ class CreateProductSerializers(serializers.ModelSerializer):
             "name": {"required": True, "allow_blank": False},
             "sellingPrice": {"required": True, "allow_blank": False},
             "purchasePrice": {"required": True, "allow_blank": False},
-            "is_active":{"required": True, "allow_blank": True},
+            "is_active":{"required": False},
             
         }
     

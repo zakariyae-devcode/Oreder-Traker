@@ -23,8 +23,8 @@ class Customer(models.Model):
     City=models.CharField(max_length=255,default="Taourirt")
     Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
 
-    create_at=models.DateTimeField(auto_now=True)
-    update_at=models.DateTimeField(auto_now_add=True)
+    create_at=models.DateTimeField(auto_now_add=True)
+    update_at=models.DateTimeField(auto_now=True)
 
    
     

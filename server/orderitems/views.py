@@ -32,7 +32,7 @@ class CreateOrderItemView(APIView):
         )
         if serializer.is_valid():
             try:
-                serializer.save()
+                serializer.save(user=request.user)
             except DatabaseError as e:
                 logger.error(f"Database error during orderItem creation: {e}")
                 return Response(
