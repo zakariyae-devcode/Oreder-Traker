@@ -117,6 +117,6 @@ class DetailProductView(APIView):
     throttle_classes=[UserRateThrottle]
 
     def get(self, request, id):
-        customer = get_object_or_404(Product, id=id, user=request.user)
-        serializer = ProductSerializer(customer)
+        product = get_object_or_404(Product, id=id, user=request.user)
+        serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,4 +1,4 @@
-import CustomersForm from "@/src/components/Customers/CustomersForm";
+import CustomersForm from "@/src/components/Customers/Customers";
 
 export default function CustomersPage() {
 

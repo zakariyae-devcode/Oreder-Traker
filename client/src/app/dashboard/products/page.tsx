@@ -1,5 +1,5 @@
 
-import ProductsForm from "@/src/components/Products/ProductsForm";
+import ProductsForm from "@/src/components/Products/Products";
 
 export default function ProductPage() {
   return (

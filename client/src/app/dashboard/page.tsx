@@ -1,4 +1,5 @@
-import DashboardForm from "@/src/components/Dashboard/DashboardForm";
+import DashboardForm from "@/src/components/Dashboard/Dashboard";
+
 
 
 

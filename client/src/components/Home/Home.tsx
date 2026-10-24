@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-export default function HomeForm() {
+export default function Home() {
   return (
     <div 
       className="min-vh-100 w-100 text-end text-white position-relative overflow-hidden" 

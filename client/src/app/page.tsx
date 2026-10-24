@@ -1,8 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import HomeForm from '../components/Home/HomeForm';
+import Home from '../components/Home/Home';
 export default function HomePage() {
   return (
-    <HomeForm/>
+    <Home/>
   );
 }
