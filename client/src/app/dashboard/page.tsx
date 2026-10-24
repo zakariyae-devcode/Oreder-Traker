@@ -1,4 +1,4 @@
-import DashboardForm from "@/src/components/Dashboard/Dashboard";
+import Dashboard from "@/src/components/Dashboard/Dashboard";
 
 
 
@@ -6,7 +6,7 @@ import DashboardForm from "@/src/components/Dashboard/Dashboard";
 export default function DashboardPage() {
   return (
     <>
-        <DashboardForm/>
+        <Dashboard/>
     </>
   );
 }

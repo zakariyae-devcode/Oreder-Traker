@@ -1,10 +1,10 @@
-import ProfileForm from "@/src/components/Profile/Profile";
+import Profile from "@/src/components/Profile/Profile";
 
 
 export default function ProfilePage() {
   return (
     <>
-        <ProfileForm/>
+        <Profile/>
     </>
   );
 }

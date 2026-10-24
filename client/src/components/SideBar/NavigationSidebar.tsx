@@ -14,9 +14,9 @@ export default function NavigationSidebar() {
   // قائمة الروابط لسهولة إدارتها وتطبيق الـ Active والـ Hover تلقائياً
   const navItems = [
     { href: '/dashboard', label: 'اللوحة الرئيسية', icon: '📊' },
-    { href: '/dashboard/orders', label: 'الطلبات', icon: '📦' },
-    { href: '/dashboard/products', label: 'المنتجات', icon: '🏷️' },
     { href: '/dashboard/customers', label: 'الزبائن', icon: '👥' },
+    { href: '/dashboard/products', label: 'المنتجات', icon: '🏷️' },
+    { href: '/dashboard/orders', label: 'الطلبات', icon: '📦' },
     { href: '/dashboard/profile', label: 'الحساب الشخصي', icon: '👤' },
   ];
 
