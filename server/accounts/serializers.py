@@ -11,7 +11,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address", "password"]
+        fields = ["username", "email", "first_name", "last_name", "cin", "phone","city","address", "password"]
         
        
         extra_kwargs = {
@@ -20,9 +20,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "last_name": {"required": True, "allow_blank": False},
             "email": {"required": True, "allow_blank": False},
             "cin": {"required": True, "allow_blank": False},
-            "Phone":{"required": True, "allow_blank": False},
-            "City":{"required": True, "allow_blank": False},
-            "Address":{"required": True, "allow_blank": False},
+            "phone":{"required": True, "allow_blank": False},
+            "city":{"required": True, "allow_blank": False},
+            "address":{"required": True, "allow_blank": False},
 
             "password": {"required": True, "allow_blank": False, "min_length": 8}
         }
@@ -35,7 +35,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
        model = User
-       fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address", "password"]
+       fields = ["username", "email", "first_name", "last_name", "cin", "Phone","City","Address"]
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -49,59 +49,3 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True, write_only=True)
-    new_password = serializers.CharField(required=True, write_only=True)
-    confirm_password = serializers.CharField(required=True, write_only=True)
-    
-    def validate(self, attrs):
-        if attrs['new_password'] != attrs['confirm_password']:
-            raise serializers.ValidationError({"password": "كلمات المرور الجديدة غير متطابقة."})
-        return attrs
-
-    def update(self, instance, validated_data):
-        instance.set_password(validated_data['new_password'])
-        instance.save()
-        return instance
-
-
-class EmailRestSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-
-    def validate_email(self, value):
-        if not User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("هذا البريد الإلكتروني غير مسجل لدينا.")
-        return value
-
-class ForgotPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField(write_only=True)
-    confirm_password = serializers.CharField(write_only=True)
-
-    def validate(self, attrs):
-       
-        if attrs['password'] != attrs['confirm_password']:
-            raise serializers.ValidationError({"password": "كلمات المرور غير متطابقة."})
-        return attrs
-        
-    def update(self, instance, validated_data):
-       
-        instance.set_password(validated_data['password'])
-        instance.save()
-        return instance
-    
-
-class LogoutSerializer(serializers.Serializer):
-    refresh = serializers.CharField()
-
-    def validate(self, attrs):
-        self.token = attrs['refresh']
-        return attrs
-
-    def save(self, **kwargs):
-        try:
-            RefreshToken(self.token).blacklist()
-        except Exception as e:
-            raise serializers.ValidationError({"detail": "التوكن غير صالح أو منتهي الصلاحية."})
-        return self.token
-    

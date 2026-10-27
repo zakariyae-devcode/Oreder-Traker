@@ -1,9 +1,80 @@
+'use client';
 import Link from 'next/link';
+import {useState,useEffect} from "react";
+import { useAuth } from '@/src/hooks/useAuth';
 export default function Form(){
 
-    return(
-        <>
-          <div className="col-lg-5 d-flex flex-column justify-content-between p-4 p-md-5 z-2 border-start border-warning border-opacity-25" style={{ backgroundColor: '#0a1d28' }}>
+  const {login,loading,error}=useAuth();
+  const [formData,setFormData]=useState({username:"",password:""});
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage,setErrorMessage]=useState<String|null>(null);
+
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+      }, 1000); 
+      
+      return () => clearTimeout(timer); 
+    }
+  }, [successMessage]);
+
+  
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(null);
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+  
+  const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    setSuccessMessage(null);
+    try{
+
+      await login(formData);
+      setSuccessMessage("تم تسجيل الدخول بنجاح")
+
+      setFormData({
+      username: '',
+      password: '',
+     
+    });
+    }catch(error){
+      const msg =  'فشل تسجيل الدخول، يرجى التحقق من البيانات والمحاولة مجدداً.';
+
+      setErrorMessage(msg);
+    }
+
+  };
+
+  return(
+    <>
+      <div className="col-lg-5 d-flex flex-column justify-content-between p-4 p-md-5 z-2 border-start border-warning border-opacity-25" style={{ backgroundColor: '#0a1d28' }}>
+      {successMessage && (
+        <div 
+          className="alert alert-success text-end py-2 px-3 rounded-3 mb-3 border-0" 
+          role="alert" 
+          style={{ backgroundColor: '#10b981', color: '#ffffff', fontSize: '0.9rem' }}
+        >
+          {successMessage}
+        </div>
+      )}
+
+      {/* عرض رسالة الخطأ إن وجدت */}
+      {errorMessage && (
+        <div 
+          className="alert alert-danger text-end py-2 px-3 rounded-3 mb-3 border-0" 
+          role="alert" 
+          style={{ fontSize: '0.9rem' }}
+        >
+          {errorMessage}
+        </div>
+      )}
           
           {/* الهيدر وشعار المنصة */}
           <div className="d-flex align-items-center justify-content-between mb-4">
@@ -19,7 +90,7 @@ export default function Form(){
                   fontSize: '1.3rem'
                 }}
               >
-                ت
+               
               </div>
               <div>
                 <span className="fw-bold fs-5 text-white d-block lh-1" style={{ letterSpacing: '0.5px' }}>متتبع الطلبات</span>
@@ -38,7 +109,7 @@ export default function Form(){
               <p className="small m-0" style={{ color: '#94a3b8' }}>سجل دخولك لإدارة طلبيات متجرك ومتابعة أرباحك الصافية بدقة</p>
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               {/* البريد الإلكتروني / اسم المستخدم */}
               <div className="mb-3">
                 <label className="form-label small fw-bold mb-1" style={{ color: '#cbd5e1' }}>
@@ -46,6 +117,9 @@ export default function Form(){
                 </label>
                 <input 
                   type="text" 
+                  name='username'
+                  value={formData.username}
+                  onChange={(e)=>setFormData({...formData,[e.target.name]:e.target.value})}
                   className="form-control py-3 px-3 rounded-3 text-white text-end border shadow-none"
                   style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                   placeholder="merchant@store.ma" 
@@ -64,7 +138,10 @@ export default function Form(){
                   </a>
                 </div>
                 <input 
-                  type="password" 
+                  type="password"
+                  value={formData.password}
+                  name='password'
+                  onChange={(e)=>setFormData({...formData,[e.target.name]:e.target.value})}
                   className="form-control py-3 px-3 rounded-3 text-white text-end border shadow-none"
                   style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                   placeholder="••••••••" 
@@ -116,9 +193,9 @@ export default function Form(){
             <span>هوية أندلسية مغربية أصيلة 🇲🇦</span>
           </div>
 
-        </div>
+      </div>
         
         
-        </>
-    )
+    </>
+  )
 }

@@ -1,9 +1,30 @@
+'use client';
 import Link from "next/link";
+import {useState} from "react";
+import {useAuth} from "../../hooks/useAuth";
 
 
 export default function Form(){
 
-    return (
+    const {register,loading,error}=useAuth();
+    const [formData,setFormData]=useState(
+      {username:"",first_name:"",last_name:"",email:"",phone:"",cin:"",city:"",address:"",password:"",passwordConfirm:""}
+    )
+
+    const handleSubmit= async(e:React.FormEvent<HTMLFormElement>)=>
+    {
+      e.preventDefault();
+      try{
+        await register(formData);
+
+      }catch(error){
+        alert("error");
+        
+      };
+      
+    }
+
+  return (
         <>
         
            <div className="col-lg-6 d-flex flex-column justify-content-between p-4 p-md-5 z-2 border-start border-warning border-opacity-25" style={{ backgroundColor: '#0a1d28' }}>
@@ -41,7 +62,9 @@ export default function Form(){
               <p className="small m-0" style={{ color: '#94a3b8' }}>أدخل بياناتك للانضمام إلى منصة التجار وتتبع طلبياتك وأرباحك بدقة</p>
             </div>
 
-            <form>
+            {/* نموذج التسجيل */}
+            
+            <form onSubmit={handleSubmit}>
               <div className="row g-3">
                 
                 {/* الاسم الشخصي (first_name) */}
@@ -52,6 +75,8 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="first_name"
+                    value={formData.first_name}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="مثال: يوسف" 
@@ -67,6 +92,8 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="last_name"
+                    value={formData.last_name}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="مثال: المنصوري" 
@@ -82,6 +109,8 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="username"
+                    value={formData.username}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="youssef_store" 
@@ -97,9 +126,12 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="cin"
+                    value={formData.cin}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="A123456" 
+                    required
                   />
                 </div>
 
@@ -111,6 +143,8 @@ export default function Form(){
                   <input 
                     type="email" 
                     name="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]:e.target.value})}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="merchant@store.ma" 
@@ -126,6 +160,8 @@ export default function Form(){
                   <input 
                     type="tel" 
                     name="phone"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="0612345678" 
@@ -141,6 +177,8 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="city"
+                    value={formData.city}
+                    onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="مثال: الدار البيضاء، فاس، وجدة" 
@@ -156,6 +194,8 @@ export default function Form(){
                   <input 
                     type="text" 
                     name="address"
+                    value={formData.address}
+                    onChange={(e)=>setFormData({...formData,[e.target.name]:e.target.value})}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="حي السلام، شارع محمد الخامس" 
@@ -170,6 +210,8 @@ export default function Form(){
                   <input 
                     type="password" 
                     name="password"
+                    value={formData.password}
+                    onChange={(e)=>setFormData({...formData,[e.target.name]:e.target.value})}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="••••••••" 
@@ -185,6 +227,8 @@ export default function Form(){
                   <input 
                     type="password" 
                     name="passwordConfirm"
+                     value={formData.passwordConfirm}
+                    onChange={(e)=>setFormData({...formData,[e.target.name]:e.target.value})}
                     className="form-control py-2.5 px-3 rounded-3 text-white text-end border shadow-none"
                     style={{ backgroundColor: '#06141b', borderColor: '#1e293b', fontSize: '0.95rem' }}
                     placeholder="••••••••" 
@@ -197,6 +241,8 @@ export default function Form(){
               {/* زر التسجيل */}
               <button 
                 type="submit" 
+                disabled={loading}
+               
                 className="btn w-100 py-3 rounded-3 fw-bold shadow transition-all mt-4"
                 style={{ 
                   background: 'linear-gradient(135deg, #d4af37 0%, #b45309 100%)', 
@@ -205,10 +251,12 @@ export default function Form(){
                   letterSpacing: '0.5px'
                 }}
               >
-                إنشاء الحساب والتسجيل ←
+               {loading ? 'جاري التسجيل...' : 'تسجيل جديد'}
               </button>
+              
             </form>
 
+            {/* رابط تسجيل الدخول */}
             <div className="mt-4 pt-3 border-top text-center" style={{ borderColor: '#1e293b !important' }}>
               <p className="small m-0" style={{ color: '#94a3b8' }}>
                 لديك حساب بالفعل؟{' '}
@@ -228,5 +276,5 @@ export default function Form(){
         </div>
         
         </>
-    )
+  );
 }

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-
+import { useAuth } from '@/src/hooks/useAuth';
 
 
 import { usePathname } from 'next/navigation';
@@ -19,6 +19,8 @@ export default function NavigationSidebar() {
     { href: '/dashboard/orders', label: 'الطلبات', icon: '📦' },
     { href: '/dashboard/profile', label: 'الحساب الشخصي', icon: '👤' },
   ];
+
+  const { logout, loading } = useAuth();
 
   return (
     <aside 
@@ -104,8 +106,9 @@ export default function NavigationSidebar() {
 
       {/* 3. التذييل السفلي (زر تسجيل الخروج) مع Hover مميز باللون الأحمر */}
       <div className="pt-3 border-top border-secondary border-opacity-25 px-2">
-        <Link 
-          href="/login" 
+        <button 
+          onClick={logout}
+          disabled={loading}
           className="btn btn-sm w-100 text-danger border border-danger border-opacity-25 rounded-3 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2"
           style={{ 
             backgroundColor: 'rgba(239, 68, 68, 0.08)',
@@ -122,9 +125,9 @@ export default function NavigationSidebar() {
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <span>تسجيل الخروج</span>
+          <span>{loading ? 'جاري الخروج...' : 'تسجيل الخروج'}</span>
           <span>←</span>
-        </Link>
+    </button>
       </div>
     </aside>
   );

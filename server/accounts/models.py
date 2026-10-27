@@ -45,12 +45,11 @@ class User(AbstractUser):
             max_length=10, 
             validators=[cin_validator],
             unique=True,
-            null=True, 
-            blank=True
+            
         )
-    Phone=models.CharField(max_length=255 ,default="+212 00000006")
-    City=models.CharField(max_length=255,default="Taourirt")
-    Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
+    phone=models.CharField(max_length=255 ,default="+212 00000006")
+    city=models.CharField(max_length=255,default="Taourirt")
+    address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
