@@ -45,6 +45,8 @@ class User(AbstractUser):
             max_length=10, 
             validators=[cin_validator],
             unique=True,
+            null=True,
+            blank=True,
             
         )
     phone=models.CharField(max_length=255 ,default="+212 00000006")
