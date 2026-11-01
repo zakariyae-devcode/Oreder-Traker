@@ -9,9 +9,9 @@ from .views import (
 )
 
 urlpatterns = [
-    path("orders/", ListOrderView.as_view()),
-    path("orders/create/", CreateOrderView.as_view()),
-    path("orders/<uuid:id>/", DetailOrderView.as_view()),
-    path("orders/<uuid:id>/update/", UpdateOrderView.as_view()),
-    path("orders/<uuid:id>/delete/", DeleteOrderView.as_view()),
+    path("list/", ListOrderView.as_view()),
+    path("create/", CreateOrderView.as_view()),
+    path("<uuid:id>/", DetailOrderView.as_view()),
+    path("<uuid:id>/update/", UpdateOrderView.as_view()),
+    path("<uuid:id>/delete/", DeleteOrderView.as_view()),
 ]

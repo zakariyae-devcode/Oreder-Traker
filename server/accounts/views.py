@@ -64,6 +64,7 @@ class UserUpdateView(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "user updated successfully"}, status=status.HTTP_200_OK)
+            logger.info()
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except DatabaseError as e:
             logger.error(f"[SECURITY] Database error during user update: {str(e)}")
