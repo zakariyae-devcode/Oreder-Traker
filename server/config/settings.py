@@ -17,6 +17,10 @@ ALLOWED_HOSTS =os.getenv("ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,9 +37,20 @@ INSTALLED_APPS = [
     'customer',
     'product',
     'orders',
-    'orderitems'
+    'orderitems',
+    'analytics',
 
 ]
+
+
+UNFOLD = {
+    "SITE_TITLE": "متجر الطلبات",
+    "SITE_HEADER": "لوحة التحكم",
+    "SITE_SYMBOL": "receipt_long",
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": False,
+}
+
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': ( 

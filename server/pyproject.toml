@@ -8,6 +8,7 @@ dependencies = [
     "django>=6.1.2",
     "django-cors-headers>=4.9.0",
     "django-filter>=26.2",
+    "django-unfold>=0.110.1",
     "djangorestframework>=3.18.3",
     "djangorestframework-simplejwt>=5.5.1",
     "gunicorn>=26.2.0",

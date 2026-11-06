@@ -3,6 +3,7 @@ import uuid
 
 from django.core.validators import MinValueValidator
 from decimal import Decimal
+
 class Status(models.TextChoices):
         NEW = "new", "New"
         CONFIRMED = "confirmed", "Confirmed"
@@ -44,7 +45,8 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return f"Order-{self.order_number}"
+        return self.order_number or str(self.id)
+
 
 
     

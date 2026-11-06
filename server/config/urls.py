@@ -15,6 +15,7 @@ urlpatterns = [
     path("api/v1/products/",include("product.urls")),
     path("api/v1/orders/",include("orders.urls")),
     path("api/v1/order-items/",include("orderitems.urls")),
+    path("api/v1/analytics/",include("analytics.urls")),
 ]
 handler404='utils.error.handler_404'
 handler500='utils.error.handler_500'
