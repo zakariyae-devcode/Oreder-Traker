@@ -44,7 +44,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return f"Order-{self.customer}"
+        return f"Order-{self.order_number}"
 
 
     
