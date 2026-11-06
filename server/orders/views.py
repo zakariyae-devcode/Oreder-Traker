@@ -11,7 +11,7 @@ from .filter import OrderFilter
 from .models import Order
 from .serializers import OrderSerializer
 from rest_framework.throttling import UserRateThrottle
-from services import build_whatsapp_url
+from .services import build_whatsapp_url
 
 
 logger = logging.getLogger(__name__)
