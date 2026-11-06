@@ -6,6 +6,7 @@ from .views import (
     DetailOrderView,
     ListOrderView,
     UpdateOrderView,
+    OrderWhatsAppView,
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path("<uuid:id>/", DetailOrderView.as_view()),
     path("<uuid:id>/update/", UpdateOrderView.as_view()),
     path("<uuid:id>/delete/", DeleteOrderView.as_view()),
+    path("<uuid:id>/whatsapp/",OrderWhatsAppView.as_view()),
 ]

@@ -11,7 +11,7 @@ from .filter import OrderFilter
 from .models import Order
 from .serializers import OrderSerializer
 from rest_framework.throttling import UserRateThrottle
-
+from services import build_whatsapp_url
 logger = logging.getLogger(__name__)
 
 
@@ -101,3 +101,19 @@ class DeleteOrderView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class OrderWhatsAppView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def get(self,request,id):
+
+        order=get_object_or_404(Order,id=id,customer__user=request.user)
+
+        try:
+          url=build_whatsapp_url(order)
+          
+        except ValueError as e:
+               return Response({"detail": str(e)}, status=400)
+
+        return Response({"url": url})
