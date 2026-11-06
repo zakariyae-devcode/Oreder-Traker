@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-
+from utils.Pagination import Pagination
 from .models import Customer
 
 from .serializers import CreateCustomerSerializer,UpdateCustomerSerialier,CustomerSerializer
@@ -21,6 +21,10 @@ logger = logging.getLogger(__name__)
 #---------------------------------------------------------#
 #-------------------- System Customer---------------------#
 #---------------------------------------------------------#
+
+
+
+
 
 class CreateCustomerView(APIView):
     permission_classes = [IsAuthenticated]
@@ -85,22 +89,19 @@ class ListCustomerView(APIView):
     def get(self, request):
         try:
            
-            queryset = Customer.objects.filter(user=request.user) #ORM 
+            queryset = Customer.objects.all().order_by("-create_at")
             
-            
-            filter_backend = CustomerFilter(request.GET, queryset=queryset)
-            
+            filterset= CustomerFilter(request.query_params,queryset=queryset)
+
+            if not filterset.is_valid():
+                return Response(filterset.errors,status=400)
+            queryset=filterset.qs
+
+            paginator=Pagination()
+            page=paginator.paginate_queryset(queryset,request,view=self)
            
-            if filter_backend.is_valid():
-                queryset = filter_backend.qs
-            else:
-                return Response(filter_backend.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-           
-            customer = queryset.only("FullName", "email", "cin", "City" ,"Address")
-            
-           
-            serializer = CustomerSerializer(customer, many=True)
+            serializer = CustomerSerializer( page,many=True)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
             
         except Exception as e:

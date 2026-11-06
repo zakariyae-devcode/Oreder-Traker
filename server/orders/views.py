@@ -6,12 +6,14 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from utils.Pagination  import Pagination
 from .filter import OrderFilter
 from .models import Order
 from .serializers import OrderSerializer
 from rest_framework.throttling import UserRateThrottle
 from services import build_whatsapp_url
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,16 +25,22 @@ def user_orders(user):
         .prefetch_related("items")
     )
 
-
 class ListOrderView(APIView):
     permission_classes = [IsAuthenticated]
-    throttle_classes=[UserRateThrottle]
+    throttle_classes = [UserRateThrottle]
 
     def get(self, request):
-        orders = user_orders(request.user).order_by("-created_at")
-        orders = OrderFilter(request.query_params, queryset=orders).qs
-        serializer = OrderSerializer(orders, many=True, context={"request": request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        orders = user_orders(request.user).order_by("-created_at", "id")
+
+        filterset = OrderFilter(request.query_params, queryset=orders)
+        if not filterset.is_valid():
+            raise serializer.ValidationError(filterset.errors)
+        orders = filterset.qs
+
+        paginator =Pagination()
+        page = paginator.paginate_queryset(orders, request, view=self)
+        serializer = OrderSerializer(page, many=True, context={"request": request})
+        return paginator.get_paginated_response(serializer.data)
 
 
 class DetailOrderView(APIView):

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-
+from utils.Pagination import Pagination
 from .models import  Product
 
 from .serializers import  CreateProductSerializers,UpdateProductSerializer,ProductSerializer
@@ -85,26 +85,23 @@ class  ListProductView(APIView):
     
     def get(self, request):
         try:
-            print("hello,word")
-           
-            queryset = Product.objects.filter(user=request.user)
+            queryset = Product.objects.all().order_by("-create_at")
+                        
+            filterset= ProductFilter(request.query_params,queryset=queryset)
+            
+            if not filterset.is_valid():
+                return Response(filterset.errors,status=400)
+            queryset=filterset.qs
+            
+            paginator=Pagination()
             
             
-            filter_backend = ProductFilter(request.GET, queryset=queryset)
+            page=paginator.paginate_queryset(queryset,request,view=self)
+                       
+                        
+            serializer = ProductSerializer( page,many=True)
             
-           
-            if filter_backend.is_valid():
-                queryset = filter_backend.qs
-            else:
-                return Response(filter_backend.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-           
-            product = queryset.only('name', 'sellingPrice','purchasePrice',"is_active")
-            
-           
-            serializer = ProductSerializer(product, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-            
         except Exception as e:
             logger.error(f"[SECURITY] Fetch  product list failed: {str(e)}")
             return Response(

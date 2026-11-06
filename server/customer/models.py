@@ -19,7 +19,7 @@ class Customer(models.Model):
             blank=True
         )
     email=models.EmailField(max_length=255,unique=True)
-    Phone=models.CharField(max_length=255 ,default="+212 00000006")
+    Phone=models.CharField(max_length=255 ,default="+212000000006")
     City=models.CharField(max_length=255,default="Taourirt")
     Address=models.TextField(blank=True,default="BDV Hay 20 Auto Taourirt")
 
