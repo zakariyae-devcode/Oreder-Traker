@@ -1,9 +1,15 @@
 
 from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 from django.urls import path,include
+
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
+
+
+superuser_required = user_passes_test(lambda u: u.is_authenticated and u.is_superuser)
 
 urlpatterns = [
 
@@ -13,7 +19,7 @@ urlpatterns = [
     path('api/v1/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     #superuser
-    path('api/v1/manager-system/', admin.site.urls),
+    path('api/v1/backoffice/', admin.site.urls),
     #app
     path("api/v1/accounts/",include("accounts.urls")),
     path("api/v1/auth/",include("authentication.urls")),
