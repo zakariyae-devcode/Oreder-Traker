@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_spectacular',
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
@@ -70,9 +71,14 @@ REST_FRAMEWORK = {
         "user": "100/minute",
         "login": "5/minute",
     },
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
-   
-
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Order Tracker API',
+    'DESCRIPTION': 'API documentation for Order Tracker backend',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 

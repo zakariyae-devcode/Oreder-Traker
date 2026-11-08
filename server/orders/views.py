@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from utils.Pagination  import Pagination
 from .filter import OrderFilter
-from .models import Order
+from .models import Order,Status
 from .serializers import OrderSerializer
 from rest_framework.throttling import UserRateThrottle
 from .services import build_whatsapp_url,change_status
@@ -131,8 +131,8 @@ class OrderWhatsAppView(APIView):
 class OrderStatusView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def patch(self, request, pk):
-        order = get_object_or_404(Order, pk=pk, customer__user=request.user)
+    def patch(self, request, id):
+        order = get_object_or_404(Order, id=id, customer__user=request.user)
 
         new_status = request.data.get("status")
         if new_status not in Status.values:

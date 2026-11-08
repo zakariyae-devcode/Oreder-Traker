@@ -47,6 +47,7 @@ ALLOWED_TRANSITIONS = {
     Status.SHIPPED: [Status.DELIVERED, Status.RETURNED],
     Status.DELIVERED: [Status.RETURNED],
     Status.RETURNED: [],
+    Status.CANCELLED: [],
 }
 
 def change_status(order, new_status):

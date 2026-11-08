@@ -5,11 +5,12 @@ from django.core.validators import MinValueValidator
 from decimal import Decimal
 
 class Status(models.TextChoices):
-        NEW = "new", "New"
-        CONFIRMED = "confirmed", "Confirmed"
-        SHIPPED = "shipped", "Shipped"
-        DELIVERED = "delivered", "Delivered"
-        RETURNED = "returned", "Returned"
+    NEW = "new", "New"
+    CONFIRMED = "confirmed", "Confirmed"
+    SHIPPED = "shipped", "Shipped"
+    DELIVERED = "delivered", "Delivered"
+    RETURNED = "returned", "Returned"
+    CANCELLED = "cancelled", "Cancelled"
 
 class Order(models.Model):
    
