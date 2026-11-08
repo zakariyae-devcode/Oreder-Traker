@@ -5,7 +5,11 @@ from django.contrib.auth.decorators import user_passes_test
 from django.urls import path,include
 
 
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from drf_spectacular.views import (  # type: ignore[import-not-found]
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
 
 
 
