@@ -11,7 +11,7 @@ from .filter import OrderFilter
 from .models import Order
 from .serializers import OrderSerializer
 from rest_framework.throttling import UserRateThrottle
-from .services import build_whatsapp_url
+from .services import build_whatsapp_url,change_status
 
 
 logger = logging.getLogger(__name__)
@@ -126,3 +126,21 @@ class OrderWhatsAppView(APIView):
                return Response({"detail": str(e)}, status=400)
 
         return Response({"url": url})
+
+
+class OrderStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        order = get_object_or_404(Order, pk=pk, customer__user=request.user)
+
+        new_status = request.data.get("status")
+        if new_status not in Status.values:
+            return Response({"detail": "حالة غير صالحة"}, status=400)
+
+        try:
+            change_status(order, new_status)
+        except ValueError as e:
+            return Response({"detail": str(e)}, status=400)
+
+        return Response({"id": str(order.id), "status": order.status})

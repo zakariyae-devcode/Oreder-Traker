@@ -1,5 +1,6 @@
 import re
 from urllib.parse import quote
+from .models import Status
 
 DEFAULT_COUNTRY_CODE = "212"
 
@@ -38,3 +39,27 @@ def build_whatsapp_url(order) -> str:
     )
 
     return f"https://wa.me/{phone}?text={quote(message)}"
+
+
+ALLOWED_TRANSITIONS = {
+    Status.NEW: [Status.CONFIRMED],
+    Status.CONFIRMED: [Status.SHIPPED],
+    Status.SHIPPED: [Status.DELIVERED, Status.RETURNED],
+    Status.DELIVERED: [Status.RETURNED],
+    Status.RETURNED: [],
+}
+
+def change_status(order, new_status):
+    allowed = ALLOWED_TRANSITIONS.get(order.status, [])
+
+    if new_status not in allowed:
+        raise ValueError(
+            f"لا يمكن الانتقال من '{order.status}' إلى '{new_status}'"
+        )
+
+    if new_status == Status.CONFIRMED and not order.items.exists():
+        raise ValueError("لا يمكن تأكيد طلب بدون منتجات")
+
+    order.status = new_status
+    order.save(update_fields=["status", "update_at"])
+    return order
